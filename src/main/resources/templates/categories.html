@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+<h2>Info about req</h2>
+<div>IP addr: <th:block th:text="${ipAddress}"></th:block></div>
+<div>Client: <th:block th:text="${client}" ></th:block></div>
+
+<h2>Categories</h2>
+
+<ul>
+    <li th:each="category : ${categories}">
+        <span th:text="${category.name}"></span>
+        <span th:text="${category.description}"></span>
+    </li>
+</ul>
+
+<h3>Add new Category</h3>
+<form th:method="POST" th:action="@{/servlet/thymeleaf/category}">
+    <label for="name">Name
+        <input type="text" id="name" name="ime" placeholder="Category">
+    </label>
+    <label for="desc">Description
+        <input type="text" id="desc" name="tekst" placeholder="Description">
+    </label>
+    <button type="submit">Add</button>
+</form>
+</body>
+</html>
