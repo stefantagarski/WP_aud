@@ -5,62 +5,48 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mk.ukim.finki.wp_aud.bootstrap.DataHolder;
-import mk.ukim.finki.wp_aud.model.Category;
 import mk.ukim.finki.wp_aud.service.CategoryService;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+import org.thymeleaf.web.IWebExchange;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(name = "category-servlet", urlPatterns = {"/servlet/category"})
 public class CategoryServlet extends HttpServlet {
 
+    private final SpringTemplateEngine springTemplateEngine;
     private final CategoryService categoryService;
 
-    public CategoryServlet(CategoryService categoryService) {
+    public CategoryServlet(SpringTemplateEngine springTemplateEngine, CategoryService categoryService) {
+        this.springTemplateEngine = springTemplateEngine;
         this.categoryService = categoryService;
-    } //constructor based dependency-injection
+    } // again constructor based dependency injection
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter writer = resp.getWriter();
+        IWebExchange webExchange = JakartaServletWebApplication
+                .buildApplication(getServletContext())
+                .buildExchange(req, resp);
+        WebContext context = new WebContext(webExchange);
 
-        writer.write("<html><head><title>Categories</title></head><body>");
+        context.setVariable("ipAddress", req.getRemoteAddr());
+        context.setVariable("client", req.getHeader("User-Agent"));
+        context.setVariable("categories", categoryService.listCategories());
 
-        writer.write("<h3>User Information</h3>");
-        writer.format("<p>The IP-address who made this request is: %s </p></br>", req.getRemoteAddr());
-        writer.format("<p>The client is: %s</p></br>", req.getHeader("User-Agent"));
+        Integer userViews = (Integer) getServletContext().getAttribute("userViews");
+        getServletContext().setAttribute("userViews", ++userViews);
+        context.setVariable("userViews", getServletContext().getAttribute("userViews"));
 
-
-        writer.write("<h3>Categories</h3>");
-        writer.write("<ul>");
-        categoryService.listCategories().forEach(category -> writer.format("<li>" + "%s" + " " + "(%s)" + "</li>",
-                category.getName(), category.getDescription()));
-        writer.write("</ul>");
-
-
-        writer.write("<h3>Add Category</h3>");
-        writer.write("<form method='post' action='/servlet/category'>");
-        writer.write("<label for='ime'>Name:</label>");
-        writer.write("<input type='text' id='ime' name='ime'></br>");
-        writer.write("<label for='desc'>Description:</label>");
-        writer.write("<input type='text' id='desc' name='desc'></br>");
-        writer.write("<button type='submit'>Add</button>");
-        writer.write("</form>");
-
-        writer.write("</body></html>");
-
+        springTemplateEngine.process("categories.html", context, resp.getWriter());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("ime"); //it gets it from the input field with name='ime'
-        String desc = req.getParameter("desc");
-        categoryService.create(name, desc);
-        resp.sendRedirect("/servlet/category"); //redirect to the same servlet
-
+        String name = req.getParameter("ime");
+        String desc = req.getParameter("tekst");
+        categoryService.create(name , desc);
+        resp.sendRedirect("/servlet/category");
     }
-
 }
