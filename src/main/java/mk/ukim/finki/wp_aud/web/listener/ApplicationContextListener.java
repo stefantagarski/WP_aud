@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebListener;
 
 @WebListener
 public class ApplicationContextListener implements ServletContextListener {
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContextListener.super.contextInitialized(sce);

@@ -19,23 +19,24 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public User login(String username, String password) {
-        if (username.isEmpty() || username == null || password.isEmpty() || password == null) {
+        if (username.isEmpty() || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        return repository.findByUsernameAndPassword(username, password)
-                .orElseThrow(InvalidCredentialsException::new);
+       return repository.findByUsernameAndPassword(username, password)
+               .orElseThrow(InvalidCredentialsException::new);
     }
 
     @Override
     public User register(String username, String password, String repeatPassword, String name, String surname) {
-        if (username.isEmpty() || username == null || password.isEmpty() || password == null
-                || repeatPassword.isEmpty() || repeatPassword == null || name.isEmpty() || name == null
-                || surname.isEmpty() || surname == null) {
+        if (username.isEmpty() || password.isEmpty()
+                || repeatPassword.isEmpty() || name.isEmpty() || surname.isEmpty()) {
             throw new InvalidArgumentsException();
         }
+
         if (!password.equals(repeatPassword)) {
             throw new PasswordsDontMatchException();
         }
+
         return repository.saveOrUpdate(new User(username, password, name, surname));
     }
 }

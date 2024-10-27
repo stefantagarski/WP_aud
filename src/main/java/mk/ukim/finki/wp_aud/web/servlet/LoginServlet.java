@@ -14,7 +14,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "servlet-login", urlPatterns = {"/login"})
+@WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
     private final AuthService service;
@@ -49,11 +49,10 @@ public class LoginServlet extends HttpServlet {
         User user = null;
 
         try {
-           user = service.login(username, password);
-        } catch (RuntimeException exception) {
+            user = service.login(username, password);
+        } catch (RuntimeException e) {
             context.setVariable("hasError", true);
-            context.setVariable("error", exception.getMessage());
-
+            context.setVariable("error", e.getMessage());
             engine.process("login.html", context, resp.getWriter());
         }
 
@@ -61,5 +60,6 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("user", user);
             resp.sendRedirect("/servlet/category");
         }
+
     }
 }

@@ -16,7 +16,7 @@ public class InMemoryCategoryRepository { //adapter
     }
 
     public Category save(Category category) {
-        if (category.getName().isEmpty() || category == null) {
+        if (category.getName().isEmpty()) {
             return null;
         }
         DataHolder.categoryList.removeIf(r -> r.getName().equals(category.getName()));

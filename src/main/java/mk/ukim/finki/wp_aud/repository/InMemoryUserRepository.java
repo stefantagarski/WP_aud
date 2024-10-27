@@ -9,11 +9,11 @@ import java.util.Optional;
 @Repository
 public class InMemoryUserRepository {
 
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername (String username) {
         return DataHolder.userList.stream().filter(r -> r.getUsername().equals(username)).findFirst();
     }
 
-    public Optional<User> findByUsernameAndPassword(String username, String password){
+    public Optional<User> findByUsernameAndPassword (String username, String password) {
         return DataHolder.userList.stream().filter(r -> r.getUsername().equals(username) &&
                 r.getPassword().equals(password)).findFirst();
     }

@@ -18,10 +18,9 @@
 </th:block>
 
 <div>
-    <th:block th:text="${userViews?:0}">
-
-    </th:block>
+    Visits: <th:block th:text="${userViews}"></th:block>
 </div>
+
 <h2>Categories</h2>
 <ul>
     <li th:each="category : ${categories}">

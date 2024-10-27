@@ -3,8 +3,7 @@ package mk.ukim.finki.wp_aud.service;
 import mk.ukim.finki.wp_aud.model.User;
 
 public interface AuthService {
-    User login(String username, String password);
+    public User login(String username, String password);
 
-    User register(String username, String password, String repeatPassword, String name, String surname);
-
+    public User register(String username, String password, String repeatPassword, String name, String surname);
 }
