@@ -2,7 +2,6 @@ package mk.ukim.finki.wp_aud.web.controller;
 
 import mk.ukim.finki.wp_aud.bootstrap.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.wp_aud.bootstrap.exceptions.PasswordsDontMatchException;
-import mk.ukim.finki.wp_aud.model.User;
 import mk.ukim.finki.wp_aud.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,7 @@ public class RegisterController {
     @PostMapping
     public String register(@RequestParam String username, @RequestParam String password,
                            @RequestParam String repeatPassword,
-                           @RequestParam String name, @RequestParam String surname, Model model) {
+                           @RequestParam String name, @RequestParam String surname) {
         try {
             service.register(username, password, repeatPassword, name, surname);
             return "redirect:/login";
