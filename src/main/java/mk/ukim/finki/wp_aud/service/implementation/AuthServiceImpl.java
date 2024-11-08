@@ -1,8 +1,8 @@
 package mk.ukim.finki.wp_aud.service.implementation;
 
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.InvalidArgumentsException;
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.InvalidCredentialsException;
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.PasswordsDontMatchException;
+import mk.ukim.finki.wp_aud.model.exceptions.InvalidArgumentsException;
+import mk.ukim.finki.wp_aud.model.exceptions.InvalidCredentialsException;
+import mk.ukim.finki.wp_aud.model.exceptions.PasswordsDontMatchException;
 import mk.ukim.finki.wp_aud.model.User;
 import mk.ukim.finki.wp_aud.repository.InMemoryUserRepository;
 import mk.ukim.finki.wp_aud.service.AuthService;

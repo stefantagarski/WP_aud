@@ -1,7 +1,7 @@
 package mk.ukim.finki.wp_aud.web.controller;
 
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.InvalidArgumentsException;
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.PasswordsDontMatchException;
+import mk.ukim.finki.wp_aud.model.exceptions.InvalidArgumentsException;
+import mk.ukim.finki.wp_aud.model.exceptions.PasswordsDontMatchException;
 import mk.ukim.finki.wp_aud.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

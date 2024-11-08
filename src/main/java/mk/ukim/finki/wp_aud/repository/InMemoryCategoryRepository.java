@@ -33,6 +33,10 @@ public class InMemoryCategoryRepository { //adapter
                 || r.getDescription().equals(text)).collect(Collectors.toList());
     }
 
+    public Optional<Category> findById(Long id) {
+        return DataHolder.categoryList.stream().filter(r -> r.getId().equals(id)).findFirst();
+    }
+
     public void delete(String text) {
         if (text == null) {
             return;

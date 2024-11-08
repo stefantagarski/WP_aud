@@ -1,7 +1,7 @@
 package mk.ukim.finki.wp_aud.web.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.ukim.finki.wp_aud.bootstrap.exceptions.InvalidCredentialsException;
+import mk.ukim.finki.wp_aud.model.exceptions.InvalidCredentialsException;
 import mk.ukim.finki.wp_aud.model.User;
 import mk.ukim.finki.wp_aud.service.AuthService;
 import org.springframework.stereotype.Controller;

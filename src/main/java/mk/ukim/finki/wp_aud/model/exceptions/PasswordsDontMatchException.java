@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp_aud.bootstrap.exceptions;
+package mk.ukim.finki.wp_aud.model.exceptions;
 
 public class PasswordsDontMatchException extends RuntimeException{
     public PasswordsDontMatchException() {
