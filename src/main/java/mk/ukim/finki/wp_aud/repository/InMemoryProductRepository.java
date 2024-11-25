@@ -21,7 +21,7 @@ public class InMemoryProductRepository {
     }
 
     public Optional<Product> save(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
-        DataHolder.productList.removeIf(r -> r.getName().equals(name));
+        DataHolder.productList.removeIf(r -> r.getQuantity().equals(quantity));
         Product product = new Product(name, price, quantity, category, manufacturer);
         DataHolder.productList.add(product);
         return Optional.of(product);

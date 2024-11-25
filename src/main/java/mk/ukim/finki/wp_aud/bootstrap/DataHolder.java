@@ -1,10 +1,7 @@
 package mk.ukim.finki.wp_aud.bootstrap;
 
 import jakarta.annotation.PostConstruct;
-import mk.ukim.finki.wp_aud.model.Category;
-import mk.ukim.finki.wp_aud.model.Manufacturer;
-import mk.ukim.finki.wp_aud.model.Product;
-import mk.ukim.finki.wp_aud.model.User;
+import mk.ukim.finki.wp_aud.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +14,7 @@ public class DataHolder {
     public static List<User> userList = new ArrayList<>();
     public static List<Manufacturer> manufacturerList = new ArrayList<>();
     public static List<Product> productList = new ArrayList<>();
+    public static List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
 
     @PostConstruct // initializes and runs at the start of the spring app
