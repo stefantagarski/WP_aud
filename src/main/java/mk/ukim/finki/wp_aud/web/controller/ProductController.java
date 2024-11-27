@@ -32,7 +32,8 @@ public class ProductController {
         }
         List<Product> products = this.productService.findAll();
         model.addAttribute("products", products);
-        return "products";
+        model.addAttribute("bodyContent", "products");
+        return "master-template";
     }
 
     @PostMapping("/delete/{id}")
