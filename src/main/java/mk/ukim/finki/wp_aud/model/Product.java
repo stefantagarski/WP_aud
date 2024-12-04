@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //key
 
     private String name;
@@ -28,7 +29,6 @@ public class Product {
     private Manufacturer manufacturer;
 
     public Product(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
-        this.id = (long) (Math.random() * 1000);
         this.name = name;
         this.price = price;
         this.quantity = quantity;

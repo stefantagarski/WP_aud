@@ -18,6 +18,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final ManufacturerService manufacturerService;
+
     public ProductController(ProductService productService, CategoryService categoryService, ManufacturerService manufacturerService) {
         this.productService = productService;
         this.categoryService = categoryService;
@@ -66,11 +67,16 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String saveProduct(@RequestParam String name,
+    public String saveProduct(@RequestParam(required = false) Long id,
+                              @RequestParam String name,
                               @RequestParam Double price,
                               @RequestParam Integer quantity,
                               @RequestParam Long category,
                               @RequestParam Long manufacturer) {
+
+        if (id != null) {
+            this.productService.update(id, name, price, quantity, category, manufacturer);
+        }
         this.productService.save(name, price, quantity, category, manufacturer);
         return "redirect:/products";
     }

@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp_aud.service.implementation;
 
 import mk.ukim.finki.wp_aud.model.Category;
-import mk.ukim.finki.wp_aud.repository.InMemoryCategoryRepository;
+import mk.ukim.finki.wp_aud.repository.impl.InMemoryCategoryRepository;
+import mk.ukim.finki.wp_aud.repository.jpa.CategoryRepository;
 import mk.ukim.finki.wp_aud.service.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final InMemoryCategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(InMemoryCategoryRepository categoryRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     } //constructor based dependency-injection
 
@@ -41,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (name.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        categoryRepository.delete(name);
+        categoryRepository.deleteByName(name);
     }
 
     @Override
@@ -51,6 +52,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> search(String text) {
-        return categoryRepository.search(text);
+        return categoryRepository.findByNameLike(text);
     }
 }

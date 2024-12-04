@@ -8,24 +8,26 @@ import mk.ukim.finki.wp_aud.model.exceptions.ProductAlreadyInShoppingCartExcepti
 import mk.ukim.finki.wp_aud.model.exceptions.ProductNotFoundException;
 import mk.ukim.finki.wp_aud.model.exceptions.ShoppingCartNotFound;
 import mk.ukim.finki.wp_aud.model.exceptions.UserNotFoundException;
-import mk.ukim.finki.wp_aud.repository.InMemoryShoppingCartRepository;
-import mk.ukim.finki.wp_aud.repository.InMemoryUserRepository;
+import mk.ukim.finki.wp_aud.repository.impl.InMemoryShoppingCartRepository;
+import mk.ukim.finki.wp_aud.repository.impl.InMemoryUserRepository;
+import mk.ukim.finki.wp_aud.repository.jpa.ShoppingCartRepository;
+import mk.ukim.finki.wp_aud.repository.jpa.UserRepository;
 import mk.ukim.finki.wp_aud.service.ProductService;
 import mk.ukim.finki.wp_aud.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private final InMemoryShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
     private final ProductService productService;
-    private final InMemoryUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public ShoppingCartServiceImpl(InMemoryShoppingCartRepository shoppingCartRepository, ProductService productService, InMemoryUserRepository userRepository) {
+    public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCartRepository, ProductService productService
+            , UserRepository userRepository) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.productService = productService;
         this.userRepository = userRepository;
@@ -33,21 +35,25 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public List<Product> listAllProductsInShoppingCart(Long cartID) {
-        if (shoppingCartRepository.findByID(cartID).isEmpty()) {
+        if (shoppingCartRepository.findById(cartID).isEmpty()) {
             throw new ShoppingCartNotFound(cartID);
         }
-        return shoppingCartRepository.findByID(cartID).get().getProducts();
+        return shoppingCartRepository.findById(cartID).get().getProducts();
     }
 
     @Override
     public ShoppingCart getActiveShoppingCart(String username) {
-        return shoppingCartRepository.findByUsernameAndStatus(username, ShoppingCartStatus.CREATED)
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        return shoppingCartRepository
+                .findByUserAndShoppingCartStatus(user, ShoppingCartStatus.CREATED)
                 .orElseGet(() -> {
-                    User user = userRepository.findByUsername(username)
-                            .orElseThrow(() -> new UserNotFoundException(username));
                     ShoppingCart cart = new ShoppingCart(user);
                     return shoppingCartRepository.save(cart);
                 });
+
     }
 
     @Override

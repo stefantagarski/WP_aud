@@ -37,7 +37,8 @@
 //
 //    @DeleteMapping("/delete/{id}")
 //    public ResponseEntity delete(@PathVariable Long id) {
-//        if(manufacturerService.deleteByID(id)) {
+//        manufacturerService.deleteByID(id);
+//        if(manufacturerService.findById(id).isEmpty()) {
 //            return ResponseEntity.ok().build();
 //        }
 //        return ResponseEntity.badRequest().build();

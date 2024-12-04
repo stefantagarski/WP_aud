@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "shop_users") // specify the name of the table
 public class User {
+
     @Id
     private String username;
 

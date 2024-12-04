@@ -15,6 +15,10 @@ public interface ProductService {
     Optional<Product> save(String name, Double price,
                            Integer quantity, Long categoryID, Long manufacturerID);
 
+
+    Optional<Product> update(Long id, String name, Double price, Integer quantity, Long categoryID, Long manufacturerID);
+
+
     void deleteById(Long id);
 
 }

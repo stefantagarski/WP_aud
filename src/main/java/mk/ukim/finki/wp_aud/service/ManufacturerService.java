@@ -11,6 +11,6 @@ public interface ManufacturerService {
 
     Optional<Manufacturer> save(String name, String address);
 
-    boolean deleteByID(Long id);
+    void deleteByID(Long id);
 
 }
