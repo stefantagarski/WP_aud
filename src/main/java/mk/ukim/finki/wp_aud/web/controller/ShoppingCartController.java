@@ -1,5 +1,7 @@
 package mk.ukim.finki.wp_aud.web.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.wp_aud.model.ShoppingCart;
 import mk.ukim.finki.wp_aud.model.User;
@@ -19,29 +21,26 @@ public class ShoppingCartController {
     }
 
     @GetMapping
-    public String getCartPage(@RequestParam(required = false) String error, HttpSession session, Model model) {
+    public String getShoppingCartPage(@RequestParam(required = false) String error, HttpServletRequest req, Model model) {
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
 
-        User user = (User) session.getAttribute("user");
+        String username = req.getRemoteUser();
+        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
 
-        ShoppingCart cart = shoppingCartService.getActiveShoppingCart(user.getUsername());
-
-        model.addAttribute("products", shoppingCartService.listAllProductsInShoppingCart(cart.getId()));
-
+        model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
         model.addAttribute("bodyContent", "shopping-cart");
 
         return "master-template";
-
     }
 
     @PostMapping("/add-product/{id}")
-    public String addProductToCart(@PathVariable Long id, HttpSession session) {
+    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req) {
         try {
-            User user = (User) session.getAttribute("user");
-            this.shoppingCartService.addProductShoppingCart(user.getUsername(), id);
+            String username = req.getRemoteUser();
+            this.shoppingCartService.addProductShoppingCart(username, id);
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception) {
             return "redirect:/shopping-cart?error=" + exception.getMessage();

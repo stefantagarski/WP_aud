@@ -14,4 +14,10 @@ public class HomeController {
         model.addAttribute("bodyContent", "home");
         return "master-template";
     }
+
+    @GetMapping("/access_denied")
+    public String accessDenied(Model model) {
+        model.addAttribute("bodyContent", "access_denied");
+        return "master-template";
+    }
 }

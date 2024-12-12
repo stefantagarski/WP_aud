@@ -6,6 +6,7 @@ import mk.ukim.finki.wp_aud.model.Product;
 import mk.ukim.finki.wp_aud.service.CategoryService;
 import mk.ukim.finki.wp_aud.service.ManufacturerService;
 import mk.ukim.finki.wp_aud.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,12 +39,14 @@ public class ProductController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteProduct(@PathVariable Long id) {
         this.productService.deleteById(id);
         return "redirect:/products";
     }
 
     @GetMapping("/edit-form/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editProductPage(@PathVariable Long id, Model model) {
         if (this.productService.findById(id).isPresent()) {
             Product product = this.productService.findById(id).get();
@@ -58,6 +61,7 @@ public class ProductController {
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addProductPage(Model model) {
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
         List<Category> categories = this.categoryService.listCategories();
