@@ -27,22 +27,4 @@ public class AuthServiceImpl implements AuthService {
                .orElseThrow(InvalidCredentialsException::new);
     }
 
-    @Override
-    public User register(String username, String password, String repeatPassword, String name, String surname) {
-        if (username.isEmpty() || password.isEmpty()
-                || repeatPassword.isEmpty() || name.isEmpty() || surname.isEmpty()) {
-            throw new InvalidArgumentsException();
-        }
-
-        if (!password.equals(repeatPassword)) {
-            throw new PasswordsDontMatchException();
-        }
-
-        if (!userRepository.findByUsername(username).isEmpty()
-                || userRepository.findByUsername(username).isPresent()) {
-            throw new UsernameAlreadyExistsException(username);
-        }
-
-        return userRepository.save(new User(username, password, name, surname));
-    }
 }

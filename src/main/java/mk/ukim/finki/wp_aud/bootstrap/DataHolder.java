@@ -17,13 +17,13 @@ public class DataHolder {
     public static List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
 
-   @PostConstruct // initializes and runs at the start of the spring app
-    public void init() {
+   //@PostConstruct // initializes and runs at the start of the spring app
+//    public void init() {
 //        categoryList.add(new Category("Software", "dasasfdaf"));
 //        categoryList.add(new Category("Hardware", "dasasffsfaf"));
 //        categoryList.add(new Category("Mobiles", "dasasfdadadasdadf"));
 //
-        userList.add(new User("stefantagarski", "st", "Stefan", "Tagarski"));
+//        //userList.add(new User("stefantagarski", "st", "Stefan", "Tagarski"));
 //
 //
 //        manufacturerList.add(new Manufacturer("Apple", "USA"));
@@ -36,6 +36,6 @@ public class DataHolder {
 //        productList.add(new Product("iPhone 11", 1000.0, 10, category, manufacturer));
 //        productList.add(new Product("iPhone 10", 800.0, 10, category, manufacturer));
 //
-   }
+//   }
 
 }
